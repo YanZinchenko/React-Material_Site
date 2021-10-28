@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { AppBar, Button, Container, IconButton, Toolbar, Typography, Box  } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { makeStyles} from '@mui/styles';
+
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1
+  },
+  // menuButton: {
+  //   marginRight: theme.spacing(1) 
+  // },
+  title: {
+    flexGrow: 1
+  }
+}))
+
 
 function App() {
+  const classes = useStyles();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <AppBar position="fixed">
+     <Container fixed>
+       <Toolbar>
+          <IconButton edge="start" color="inherit" aria-laabel="menu" className={classes.menuButton}>
+             <MenuIcon />
+           </IconButton>
+           <Typography variant="h6" className={classes.title}>Web Developer Blog</Typography>
+           <Box mr={3}>
+             <Button color="inherit" variant="outlined">Log in</Button>
+           </Box>
+           <Button color="secondary" variant="contained">Sign Up</Button>
+       </Toolbar>
+     </Container>
+   </AppBar>
   );
 }
 
