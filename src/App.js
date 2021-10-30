@@ -1,8 +1,19 @@
 import React from 'react';
-import { AppBar, Button, Container, IconButton, Toolbar, Typography, Box, Paper, Grid  } from '@mui/material';
+import { AppBar, Button, Container, IconButton, Toolbar, Typography, 
+Box, Paper, Grid, Card, CardMedia, CardContent, CardActions, BottomNavigation, BottomNavigationAction, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Dialog  } from '@mui/material';
+// import { BottomNavigation } from '@mui/material/BottomNavigation';
+// import { BottomNavigationAction } from '@mui/material/BottomNavigationAction';
 import MenuIcon from '@mui/icons-material/Menu';
 import { makeStyles} from '@mui/styles';
-import { spacing } from '@mui/system';
+
+import RestoreIcon from '@mui/icons-material/Restore';
+import LayersIcon from '@mui/icons-material/Layers';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import FolderIcon from '@mui/icons-material/Folder';
+
+
 
 
 
@@ -38,13 +49,41 @@ const useStyles = makeStyles((theme) => ({
   mainFeaturesPostContent: {
     position: "relative",
     color: "white"
-  //   padding: theme.spacing(10) Error- I dont now how creat normal spacing 
+    //padding: theme.spacing(10) Error- I dont now how creat normal spacing 
+  },
+  cardMedia: {
+    paddingTop: "56.25%"
+  },
+  cardContent: {
+    flexGrow: 1
+  },
+  cardGrid: {
+    // marginTop: theme.spacing(4)
   }
 }))
+
+const cards = [1,2,3,4,5,6,7,8,9];
 
 
 function App() {
   const classes = useStyles();
+  const [value, setValue] =React.useState("recents")
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
+
   return (
     <>
    <AppBar position="fixed">
@@ -55,7 +94,33 @@ function App() {
            </IconButton>
            <Typography variant="h6" className={classes.title}>Yan Zinchenko</Typography>
            <Box mr={3}>
-             <Button color="inherit" variant="outlined">Log in</Button>
+             <Button color="inherit" variant="outlined" onClick={handleClickOpen}>Log in</Button>
+             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Log in</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>Log in to see videos</DialogContentText>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Email Adress"
+                    type="email"
+                    fullWidth
+                  />
+                   <TextField
+                    autoFocus
+                    margin="dense"
+                    id="pass"
+                    label="Password"
+                    type="password"
+                    fullWidth
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose} color="primary">Cansel</Button>
+                  <Button onClick={handleClose} color="primary">Log in</Button>
+                </DialogActions>
+             </Dialog>
            </Box>
            <Button color="secondary" variant="contained">Sign Up</Button>
        </Toolbar>
@@ -63,7 +128,7 @@ function App() {
    </AppBar>
 
    <main>
-     <Box sx={{ marginBottom: 8 }} />
+     <Box sx={{ marginBottom: 5 }} />
      <Paper className={classes.mainFeaturestPost} 
      style={{ backgroundImage: `url(https://source.unsplash.com/random)` }}
      >
@@ -71,7 +136,7 @@ function App() {
          <div className={classes.overlay}/>
           <Grid container>
              <Grid item md={6}>
-             <Box sx={{ padding: 6 }} />
+                <Box sx={{ padding: 6 }} />
                <div className={classes.mainFeaturesPostContent}>
                  <Typography 
                     component="h1"
@@ -106,7 +171,7 @@ function App() {
                    Optio, quibusdam assumenda maxime perferendis 
                    illum ipsum ratione reprehenderit facilis.Illum ipsum ratione reprehenderit facilis.</Typography>
           <div className={classes.mainButtons}>
-               <Grid container spacing={2} justify="center">
+               <Grid container spacing={5} justify="center">
                     <Grid item>
                       <Button variant="contained" color="primary">Start Now</Button>
                     </Grid>
@@ -114,10 +179,76 @@ function App() {
                       <Button variant="outlined" color="primary">Learn More</Button>
                     </Grid>
                </Grid>
-          </div>         
+          </div>  
+          <Box sx={{ marginTop: 4 }} />
+          <Container className={classes.cardGrid} maxWidth="md">
+            <Grid container spacing={4}>
+              {cards.map((card) => (
+                <Grid item key={card} xs={12} sm={6} md={4} >
+                      <Card className={classes.card}>
+                        <CardMedia 
+                          className={classes.cardMedia}
+                          image="https://source.unsplash.com/random"
+                          title="Image title" 
+                          />
+                          <CardContent className={classes.cardContent}>
+                            <Typography variant="h5" gutterBottom>
+                              Blog post
+                            </Typography>
+                            <Typography>
+                              Blog post. Web Developer blog Web Developer blog Web Developer blog 
+                            </Typography>
+                          </CardContent>
+                          <CardActions>
+                            <Button size="small" color="primary">
+                              View
+                            </Button>
+                            <Button size="small" color="primary">
+                              Edit
+                            </Button>
+                            <LayersIcon />
+                            <PlayCircleFilledIcon />
+                          </CardActions>
+                      </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>       
         </Container>
      </div>
    </main>
+   <footer>
+     <Typography variant="h6" align="center" gutterBottom>Footer</Typography>
+     <BottomNavigation
+      value={value}
+      onChange={handleChange}
+      className={classes.root}
+      >
+          <BottomNavigationAction
+          label="Recents"
+          value="recents"
+          icon={<RestoreIcon />} 
+          />
+           <BottomNavigationAction
+          label="Favorites"
+          value="favorites"
+          icon={<FavoriteIcon />} 
+          />
+           <BottomNavigationAction
+          label="Nearby"
+          value="nearby"
+          icon={<LocationOnIcon />} 
+          />
+           <BottomNavigationAction
+          label="Folder"
+          value="folder"
+          icon={<FolderIcon />} 
+          />
+     </BottomNavigation>
+     <Typography align="center" color="textSecondary" component="p" variant="subtitle1">
+       Web Developer Blog React JS Material UI site
+     </Typography>
+   </footer>
    </>
   );
 }
